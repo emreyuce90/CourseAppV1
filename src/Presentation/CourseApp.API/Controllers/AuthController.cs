@@ -4,14 +4,16 @@ using CourseApp.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseApp.API.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase {
 
         private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public AuthController(IUserService userService) {
+        public AuthController(IUserService userService, IAuthService authService) {
             _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -24,5 +26,14 @@ namespace CourseApp.API.Controllers {
             }
             return Ok(response);
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(Response<UserResource>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto) {
+
+            return Ok();
+        }
+
     }
 }

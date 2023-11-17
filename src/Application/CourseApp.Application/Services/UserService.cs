@@ -30,6 +30,8 @@ namespace CourseApp.Application.Services {
                 }
                 return new Response() { Message = message, Success = false };
             }
+            var existUser = await _userRepository.GetSingle(u => u.Email == userAddDto.Email);
+            if (existUser is not null) return new Response { Message = "Bu kullancı zaten veritabanımızda mevcuttur", Success = false };
             try {
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(userAddDto.Password, out passwordHash, out passwordSalt);

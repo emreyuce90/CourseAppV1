@@ -33,6 +33,7 @@ namespace CourseApp.Application.Services {
             }
             try {
                 var addedCourse = await _courseRepository.CreateAsync(_mapper.Map<Course>(courseAddDto));
+                addedCourse.CreatedDate = DateTime.UtcNow;
                 await _courseRepository.SaveAsync();
                 return new Response<CourseDto>(_mapper.Map<CourseDto>(addedCourse));
             } catch (Exception ex) {

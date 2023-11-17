@@ -1,6 +1,7 @@
 ﻿using CourseApp.Application.Interfaces;
 using CourseApp.Application.Mappings;
 using CourseApp.Application.Services;
+using CourseApp.Application.Utilities.JWT;
 using CourseApp.Application.ValidationRules.User;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,8 @@ namespace CourseApp.Application.Extensions.MicrosoftIoC {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddAutoMapper(typeof(AutoMapperConfiguration));
+            services.AddScoped<ITokenCreate, TokenCreate>();
+            services.AddScoped<IAuthService, AuthService>();
             #region Validations Register 
 
             services.AddValidatorsFromAssemblyContaining(typeof(UserAddDtoValidator));
