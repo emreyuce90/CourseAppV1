@@ -1,4 +1,6 @@
 
+using CourseApp.Infrastructure.Extensions.MicrosoftIoC;
+
 namespace CourseApp.API {
     public class Program {
         public static void Main(string[] args) {
@@ -10,7 +12,7 @@ namespace CourseApp.API {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddInfrastructureDependencies(builder.Configuration);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CourseApp.Domain.Communication {
+namespace CourseApp.Application.Communication {
     /// <summary>
     /// API işlemlerinin geri dönüş mesajıdır. Başarılı yada başarısız durumları için ilgili alanlara bakın.
     /// </summary>
