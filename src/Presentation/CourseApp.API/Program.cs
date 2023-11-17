@@ -1,4 +1,5 @@
 ﻿
+using CourseApp.API.Extensions;
 using CourseApp.Application.Extensions.MicrosoftIoC;
 using CourseApp.Infrastructure.Extensions.MicrosoftIoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,7 @@ namespace CourseApp.API {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.ConfigureExceptionHandler();
             app.UseCors();
             app.UseHttpsRedirection();
             app.UseAuthentication();

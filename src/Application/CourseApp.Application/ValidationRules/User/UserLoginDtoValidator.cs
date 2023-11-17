@@ -12,7 +12,7 @@ namespace CourseApp.Application.ValidationRules.User {
 
             RuleFor(u => u.Password)
                .NotEmpty()
-               .WithMessage("Şifreniz boş olamaz")
+               .WithMessage("Şifreniz boş olamaz");
 
         }
     }

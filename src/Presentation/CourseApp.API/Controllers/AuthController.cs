@@ -31,8 +31,12 @@ namespace CourseApp.API.Controllers {
         [ProducesResponseType(typeof(Response<UserResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto) {
+            var response = await _authService.VerifyUser(userLoginDto);
+            if (!response.Success) return BadRequest(response);
+            var tokenResponse = await _authService.CreateToken(userLoginDto);
+            if (!tokenResponse.Success) return BadRequest(tokenResponse);
 
-            return Ok();
+            return Ok(tokenResponse);
         }
 
     }
