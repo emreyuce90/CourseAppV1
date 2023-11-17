@@ -1,4 +1,5 @@
 ﻿using CourseApp.Application.Interfaces;
+using CourseApp.Application.Mappings;
 using CourseApp.Application.Services;
 using CourseApp.Application.ValidationRules.User;
 using FluentValidation;

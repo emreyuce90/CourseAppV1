@@ -7,15 +7,11 @@ namespace CourseApp.Application.ValidationRules.User {
             RuleFor(u => u.Name)
                  .NotNull()
                  .NotEmpty()
-                 .WithMessage("İsim alanı boş geçilemez")
-                 .EmailAddress()
-                 .WithMessage("E-Mail adresi geçerli değil");
+                 .WithMessage("İsim alanı boş geçilemez");
             RuleFor(u => u.Surname)
                  .NotNull()
                  .NotEmpty()
-                 .WithMessage("Soyisim alanı boş geçilemez")
-                 .EmailAddress()
-                 .WithMessage("E-Mail adresi geçerli değil");
+                 .WithMessage("Soyisim alanı boş geçilemez");
 
             RuleFor(u => u.Email)
                  .NotNull()

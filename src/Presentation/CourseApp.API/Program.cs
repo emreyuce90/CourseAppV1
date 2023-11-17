@@ -1,4 +1,5 @@
 
+using CourseApp.Application.Extensions.MicrosoftIoC;
 using CourseApp.Infrastructure.Extensions.MicrosoftIoC;
 
 namespace CourseApp.API {
@@ -13,6 +14,7 @@ namespace CourseApp.API {
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddInfrastructureDependencies(builder.Configuration);
+            builder.Services.AddApplicationDependencies();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -34,11 +34,13 @@ namespace CourseApp.Application.Services {
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(userAddDto.Password, out passwordHash, out passwordSalt);
                 User user = new() {
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     Email = userAddDto.Email,
                     IsActive = true,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    Name = userAddDto.Name,
+                    Surname = userAddDto.Surname
                 };
                 var addedUser = await _userRepository.CreateAsync(user);
                 await _userRepository.SaveAsync();
