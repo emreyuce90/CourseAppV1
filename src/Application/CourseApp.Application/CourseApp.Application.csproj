@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappings\" />
-    <Folder Include="ValidationRules\" />
+    <ProjectReference Include="..\..\Domain\CourseApp.Domain\CourseApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>

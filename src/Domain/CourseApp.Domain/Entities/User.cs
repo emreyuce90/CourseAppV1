@@ -1,5 +1,8 @@
 ﻿namespace CourseApp.Domain.Entities {
     public class User : BaseEntity {
+        public User() {
+            Courses = new List<Course>();
+        }
 
         public string Name { get; set; }
         public string Surname { get; set; }
