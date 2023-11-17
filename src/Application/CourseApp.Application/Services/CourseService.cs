@@ -21,7 +21,7 @@ namespace CourseApp.Application.Services {
             _logger = logger;
         }
 
-        public async Task<Response> AddAsync(CourseAddDto courseAddDto) {
+        public async Task<Response> AddAsync(CourseAddDto courseAddDto, int userId) {
 
             var validationResult = await _validator.ValidateAsync(courseAddDto);
             if (!validationResult.IsValid) {
@@ -34,6 +34,7 @@ namespace CourseApp.Application.Services {
             try {
                 var addedCourse = await _courseRepository.CreateAsync(_mapper.Map<Course>(courseAddDto));
                 addedCourse.CreatedDate = DateTime.UtcNow;
+                addedCourse.UserId = userId;
                 await _courseRepository.SaveAsync();
                 return new Response<CourseDto>(_mapper.Map<CourseDto>(addedCourse));
             } catch (Exception ex) {

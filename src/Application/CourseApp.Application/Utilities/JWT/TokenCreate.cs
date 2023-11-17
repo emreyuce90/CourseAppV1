@@ -21,7 +21,7 @@ namespace CourseApp.Application.Utilities.JWT {
 
             //claims
             var claims = new List<Claim>() {
-            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+            new Claim("Id", $"{user.Id}"),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, $"{user.Name} {user.Surname}")
             };
