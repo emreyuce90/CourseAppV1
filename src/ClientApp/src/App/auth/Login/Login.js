@@ -2,9 +2,13 @@ import axios from "axios";
 import { LoadPanel, TextBox, Toast } from "devextreme-react";
 import Form, { ButtonItem, SimpleItem } from "devextreme-react/form";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addUserInfos } from "../store";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
+  const dispatch = useDispatch();
     const [loadPanel,setLoadPanel] = useState({
         loadPanelVisible:false,
         showIndicator:true,
@@ -37,6 +41,11 @@ const Login = () => {
       if (response.data.success) {
         //jwt yi localStorage a kaydet
         localStorage.setItem("jwt", JSON.stringify(response.data.resource));
+        //decode jwt
+        const decoded=jwtDecode(localStorage.getItem("jwt"));
+        const nameSurname ="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+        dispatch(addUserInfos(decoded[nameSurname]))
+        
         setToastConfig({
           ...toastConfig,
           isVisible: true,
