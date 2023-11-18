@@ -26,7 +26,7 @@ namespace CourseApp.Application.Services {
             if (!validationResult.IsValid) {
                 var message = string.Empty;
                 foreach (var item in validationResult.Errors) {
-                    message += item.ErrorMessage;
+                    message += item.ErrorMessage + "\n";
                 }
                 return new Response() { Message = message, Success = false };
             }

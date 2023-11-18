@@ -1,12 +1,12 @@
-
+import { useEffect } from "react";
+import "./App.css";
+import { useNavigate,Routes,Route } from "react-router-dom";
+import Home from "./Home/Home";
+import Login from "./auth/Login/Login";
 import 'devextreme/dist/css/dx.light.css';
-import './App.css';
-import { Button } from 'devextreme-react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import Home from './App/Home/Home';
-import Login from './App/auth/Login/Login';
-import SignUp from './App/auth/Signup/Signup';
+import axios from "axios";
+import SignUp from "./auth/Signup/Signup";
+
 
 function App() {
   const navigate = useNavigate();

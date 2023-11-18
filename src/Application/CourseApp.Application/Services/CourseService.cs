@@ -45,7 +45,8 @@ namespace CourseApp.Application.Services {
 
         public async Task<Response> GetCoursesByUserId(int userId) {
             var courses = await _courseRepository.GetAllAsync(c => c.UserId == userId).ToListAsync();
-            return new Response<List<CourseDto>>(_mapper.Map<List<CourseDto>>(courses));
+            var res = new Response() { Resource = courses };
+            return res;
         }
     }
 }

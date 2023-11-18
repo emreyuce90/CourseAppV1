@@ -22,8 +22,8 @@ namespace CourseApp.API {
             builder.Services.AddInfrastructureDependencies(builder.Configuration);
             builder.Services.AddApplicationDependencies();
             builder.Services.AddCors(options => options.AddDefaultPolicy(
-            //policy => policy.WithOrigins("http://localhost:3000", "https://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
-                        policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+            policy => policy.WithOrigins("http://localhost:3000", "https://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
+
             builder.Services.AddScoped<IUserProvider, UserProvider>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
