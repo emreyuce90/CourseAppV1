@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getToken } from './TokenManager';
 
+
 const instance = axios.create();
 
 // Axios'un request interceptor'ı

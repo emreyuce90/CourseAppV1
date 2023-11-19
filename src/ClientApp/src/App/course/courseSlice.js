@@ -8,12 +8,16 @@ import axios from "../../jwt/axios";
 export const getCourses = createAsyncThunk("courses/getCourses", async () => {
   try {
     const response = await axios.get(
-      "https://localhost:44390/api/Course/GetAllCoursesByUserId"
+      "http://localhost:5000/api/Course/GetAllCoursesByUserId"
     );
     return response.data.resource;
   } catch (error) {}
 });
 
+export const addCourse = createAsyncThunk("courses/addCourse", async(data)=>{
+  var response = await axios.post("http://localhost:5000/api/course/AddCourse",data)
+  return response?.data?.resource;
+})
 const courseList = (state) => state.course.courses;
 export const selectCourses = createSelector([courseList], (cl) => cl);
 

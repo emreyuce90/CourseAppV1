@@ -34,7 +34,7 @@ const SignUp = () => {
     //loading true ya çek
     try {
       const response = await axios.post(
-        "https://localhost:44390/api/auth/Register",
+        "http://localhost:5000/api/auth/Register",
         form
       );
       if (response.data.success) {

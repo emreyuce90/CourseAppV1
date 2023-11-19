@@ -35,7 +35,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://localhost:44390/api/auth/Login",
+        "http://localhost:5000/api/auth/Login",
         form
       );
       if (response.data.success) {

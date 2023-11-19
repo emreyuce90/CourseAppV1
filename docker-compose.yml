@@ -1,13 +1,18 @@
 version: '3.4'
 
 services:
-  courseapp.api:
+   reactapp:
+    build:
+      context: ./src/ClientApp
+      dockerfile: Dockerfile
+
+   courseapp.api:
     image: courseappapi-image
     container_name: courseapi-container
     build:
       context: .
       dockerfile: src/Presentation/CourseApp.API/Dockerfile 
-  sqlserver:
+   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
 
 volumes:

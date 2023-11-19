@@ -2,7 +2,11 @@ version: '3.4'
 
 services:
 
-  sqlserver:
+   reactapp:
+    ports:
+      - "3000:3000"
+
+   sqlserver:
      environment :
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Password12*
@@ -10,7 +14,7 @@ services:
        - sqlserver_volume:/var/opt/mssql
      ports:
       - "1433:1433"
-  courseapp.api:
+   courseapp.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:
