@@ -44,7 +44,8 @@ const Login = () => {
         //decode jwt
         const decoded=jwtDecode(localStorage.getItem("jwt"));
         const nameSurname ="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-        dispatch(addUserInfos(decoded[nameSurname]))
+        localStorage.setItem("userInfos", JSON.stringify(decoded[nameSurname]));
+        //dispatch(addUserInfos(decoded[nameSurname]))
         
         setToastConfig({
           ...toastConfig,
