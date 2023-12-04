@@ -7,6 +7,7 @@ using CourseApp.Cache;
 using CourseApp.Infrastructure.Extensions.MicrosoftIoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace CourseApp.API {
@@ -17,6 +18,42 @@ namespace CourseApp.API {
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Version = "v1",
+                    Title = "Course App Token Based Auth Project",
+                    Description = "Course App Token Based Auth Project",
+                    TermsOfService = new Uri("https://www.linkedin.com/in/mreyuce/"),
+                    Contact = new OpenApiContact {
+                        Email = "emreyuce9039@gmail.com",
+                        Name = "Emre Yüce",
+                        Url = new Uri("https://www.linkedin.com/in/mreyuce/")
+                    },
+                    License = new OpenApiLicense { Name = "Emre Yüce Licence", Url = new Uri("https://www.linkedin.com/in/mreyuce/") }
+
+                });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement{    {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = JwtBearerDefaults.AuthenticationScheme
+                        }
+                    },
+                    new string[] {}
+                        }
+                    });
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -10,23 +10,39 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseApp.Application.Services {
     public class AuthService : IAuthService {
+        private readonly IUserRefreshToken _userRefreshToken;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<UserLoginDto> _validator;
         private readonly ILogger<AuthService> _logger;
         private readonly ITokenCreate _createToken;
-        public AuthService(IUserRepository userRepository, IMapper mapper, IValidator<UserLoginDto> validator, ILogger<AuthService> logger, ITokenCreate createToken) {
+        public AuthService(IUserRepository userRepository, IMapper mapper, IValidator<UserLoginDto> validator, ILogger<AuthService> logger, ITokenCreate createToken, IUserRefreshToken userRefreshToken) {
             _userRepository = userRepository;
             _mapper = mapper;
             _validator = validator;
             _logger = logger;
             _createToken = createToken;
+            _userRefreshToken = userRefreshToken;
         }
 
         public async Task<Response> CreateToken(UserLoginDto userLoginDto) {
             var user = await _userRepository.GetSingle(u => u.Email == userLoginDto.Email);
             if (!user.IsDeleted && user.IsActive) {
-                var accessToken = _createToken.CreateToken(user, 60);
+                var accessToken = _createToken.CreateToken(user);
+                //check users refresh token already exist
+                var refreshToken = await _userRefreshToken.GetSingle(rt => rt.UserId == user.Id);
+                
+                //eğer refresh token yok ise token create üzerinden gelen verilerle yeni bir refresh token kaydı yap
+                if(refreshToken == null) {
+                    await _userRefreshToken.CreateAsync(new Domain.Entities.UserRefreshToken { UserId = user.Id,Code =accessToken.RefreshToken,Expiration=accessToken.RefreshTokenExpiration });
+                } 
+                //Eğer kullanıcının zaten bir refresh tokenı var ise bu refresh tokenı güncelle     
+                else {
+                    refreshToken.Code = accessToken.RefreshToken;
+                    refreshToken.Expiration = accessToken.RefreshTokenExpiration;
+                     _userRefreshToken.UpdateAsync(refreshToken);
+                }
+                await _userRefreshToken.SaveAsync();
                 var userResource = new UserResource {
                     Email = user.Email,
                     Name = user.Name,

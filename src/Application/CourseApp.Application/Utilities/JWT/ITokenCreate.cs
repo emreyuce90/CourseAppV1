@@ -2,6 +2,6 @@
 
 namespace CourseApp.Application.Utilities.JWT {
     public interface ITokenCreate {
-        AccessToken CreateToken(User user, int hours);
+        AccessToken CreateToken(User user);
     }
 }

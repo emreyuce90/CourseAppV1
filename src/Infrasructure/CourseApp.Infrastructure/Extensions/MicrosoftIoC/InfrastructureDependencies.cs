@@ -12,6 +12,7 @@ namespace CourseApp.Infrastructure.Extensions.MicrosoftIoC {
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SqlServer")));
             services.AddScoped<IUserRepository, EfUserRepository>();
             services.AddScoped<ICourseRepository, EfCourseRepository>();
+            services.AddScoped<IUserRefreshToken, EfUserRefreshToken>();
         }
     }
 }

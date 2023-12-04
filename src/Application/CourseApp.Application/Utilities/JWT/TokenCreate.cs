@@ -14,8 +14,9 @@ namespace CourseApp.Application.Utilities.JWT {
             _configuration = configuration;
         }
 
-        public AccessToken CreateToken(User user, int hours) {
-            var expireDate = DateTime.Now.AddHours(hours);
+        public AccessToken CreateToken(User user) {
+            var tokenExpireDate = DateTime.Now.AddHours(Convert.ToInt32(_configuration["Token:ExpireToken"]));
+            var refreshTokenExpireDate = DateTime.Now.AddDays(Convert.ToInt32(_configuration["Token:ExpireRefresh"]));
             SymmetricSecurityKey symmetric = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
             SigningCredentials credentials = new SigningCredentials(symmetric, SecurityAlgorithms.HmacSha256);
 
@@ -30,26 +31,29 @@ namespace CourseApp.Application.Utilities.JWT {
             JwtSecurityToken securityToken = new(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
-                expires: DateTime.Now.AddMinutes(hours),
+                expires: tokenExpireDate,
                 notBefore: DateTime.Now,
                 signingCredentials: credentials,
                 claims: claims
 
                 );
             //refresh token
-            byte[] numbers = new byte[32];
-            using RandomNumberGenerator randomNumberGenerator = RandomNumberGenerator.Create();
-            randomNumberGenerator.GetBytes(numbers);
-            var refreshToken = Convert.ToBase64String(numbers);
+           
             JwtSecurityTokenHandler tokenHandler = new();
             var accessToken = new AccessToken {
-                ExpirationDate = expireDate,
+                ExpirationDate = tokenExpireDate,
                 Token = tokenHandler.WriteToken(securityToken),
-                RefreshToken = refreshToken
+                RefreshToken = CreateRefreshToken(),
+                RefreshTokenExpiration= refreshTokenExpireDate
             };
             return accessToken;
         }
 
-
+        private string CreateRefreshToken() {
+            var numberByte = new Byte[32];
+            using var rnd = RandomNumberGenerator.Create();
+            rnd.GetBytes(numberByte);
+            return Convert.ToBase64String(numberByte);
+        }
     }
 }
