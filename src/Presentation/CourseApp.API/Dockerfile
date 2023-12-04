@@ -12,6 +12,7 @@ COPY ["src/Presentation/CourseApp.API/CourseApp.API.csproj", "src/Presentation/C
 COPY ["src/Application/CourseApp.Application/CourseApp.Application.csproj", "src/Application/CourseApp.Application/"]
 COPY ["src/Domain/CourseApp.Domain/CourseApp.Domain.csproj", "src/Domain/CourseApp.Domain/"]
 COPY ["src/Infrasructure/CourseApp.Infrastructure/CourseApp.Infrastructure.csproj", "src/Infrasructure/CourseApp.Infrastructure/"]
+COPY ["src/Infrasructure/CourseApp.Infrastructure/CourseApp.Infrastructure.csproj", "src/Infrasructure/CourseApp.Infrastructure/"]
 RUN dotnet restore "./src/Presentation/CourseApp.API/./CourseApp.API.csproj"
 COPY . .
 WORKDIR "/src/src/Presentation/CourseApp.API"

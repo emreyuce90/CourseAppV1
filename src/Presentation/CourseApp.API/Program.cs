@@ -3,6 +3,7 @@ using CourseApp.API.Extensions;
 using CourseApp.API.Services.Concrete;
 using CourseApp.API.Services.Interface;
 using CourseApp.Application.Extensions.MicrosoftIoC;
+using CourseApp.Cache;
 using CourseApp.Infrastructure.Extensions.MicrosoftIoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +37,9 @@ namespace CourseApp.API {
                 ValidAudience = builder.Configuration["Token:Audience"],
                 ValidIssuer = builder.Configuration["Token:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+            });
+            builder.Services.AddSingleton<RedisService>(sp => {
+                return new RedisService(builder.Configuration["Redis:Url"]);
             });
             var app = builder.Build();
 
