@@ -6,7 +6,7 @@ The techs i used for this web application are :
 
 **ORM=>Entity Framework Core with code first**
 
-**Database=>PostgreSQL**
+**Database=>MSSQL w Docker**
 
 **Validation=>Fluent Validation**
 
@@ -22,7 +22,7 @@ The techs i used for this web application are :
 
 **Versioning =>Git & Github**
 
-**Caching=>Redis**
+**Caching=>Redis Exchange**
 
 **Docker&Docker Compose**
 
