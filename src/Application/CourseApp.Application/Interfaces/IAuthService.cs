@@ -5,5 +5,6 @@ namespace CourseApp.Application.Interfaces {
     public interface IAuthService {
         Task<Response> CreateToken(UserLoginDto userLoginDto);
         Task<Response> VerifyUser(UserLoginDto userLoginDto);
+        Task<Response> CreateTokenByRefreshToken(string refreshToken);
     }
 }

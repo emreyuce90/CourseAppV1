@@ -39,5 +39,14 @@ namespace CourseApp.API.Controllers {
             return Ok(tokenResponse);
         }
 
+
+        [HttpPost]
+        [ProducesResponseType(typeof(Response<UserResource>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateTokenByRefreshToken(string refreshToken) {
+            var response = await _authService.CreateTokenByRefreshToken(refreshToken);
+            if (!response.Success) return BadRequest(response);
+            return Ok(response);
+        }
     }
 }

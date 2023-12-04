@@ -31,16 +31,16 @@ namespace CourseApp.Application.Services {
                 var accessToken = _createToken.CreateToken(user);
                 //check users refresh token already exist
                 var refreshToken = await _userRefreshToken.GetSingle(rt => rt.UserId == user.Id);
-                
+
                 //eğer refresh token yok ise token create üzerinden gelen verilerle yeni bir refresh token kaydı yap
-                if(refreshToken == null) {
-                    await _userRefreshToken.CreateAsync(new Domain.Entities.UserRefreshToken { UserId = user.Id,Code =accessToken.RefreshToken,Expiration=accessToken.RefreshTokenExpiration });
-                } 
+                if (refreshToken == null) {
+                    await _userRefreshToken.CreateAsync(new Domain.Entities.UserRefreshToken { UserId = user.Id, Code = accessToken.RefreshToken, Expiration = accessToken.RefreshTokenExpiration });
+                }
                 //Eğer kullanıcının zaten bir refresh tokenı var ise bu refresh tokenı güncelle     
                 else {
                     refreshToken.Code = accessToken.RefreshToken;
                     refreshToken.Expiration = accessToken.RefreshTokenExpiration;
-                     _userRefreshToken.UpdateAsync(refreshToken);
+                    _userRefreshToken.UpdateAsync(refreshToken);
                 }
                 await _userRefreshToken.SaveAsync();
                 var userResource = new UserResource {
@@ -52,6 +52,28 @@ namespace CourseApp.Application.Services {
                 return new Response<UserResource>(userResource);
             }
             return new Response { Success = false, Message = "Giriş yapmaya çalıştığınız kullanıcı pasif veya silinmiştir" };
+        }
+
+        public async Task<Response> CreateTokenByRefreshToken(string refreshToken) {
+            var existRefreshToken = await _userRefreshToken.GetSingle(rt => rt.Code == refreshToken);
+
+            if (existRefreshToken == null)  return new Response { Success = false, Message = "Refresh token bulunamadı" };
+               
+            var user = await _userRepository.GetById(existRefreshToken.UserId);
+            if(user == null) return new Response { Success = false, Message = "Kullanıcı  bulunamadı" };
+
+            var accessToken = _createToken.CreateToken(user);
+            existRefreshToken.Code = accessToken.RefreshToken;
+            existRefreshToken.Expiration = accessToken.RefreshTokenExpiration;
+            await _userRefreshToken.SaveAsync();
+
+            var userResource = new UserResource {
+                Email = user.Email,
+                Name = user.Name,
+                Surname = user.Surname,
+                Token = accessToken
+            };
+            return new Response<UserResource>(userResource);
         }
 
         public async Task<Response> VerifyUser(UserLoginDto userLoginDto) {
